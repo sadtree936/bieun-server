@@ -63,36 +63,47 @@
   }
   .nav-top{
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: flex-start;
     height: 72px;
   }
   .brand{
     display:flex;
-    align-items:baseline;
+    align-items:center;
     gap:10px;
     font-family:'Noto Serif KR', serif;
     font-weight:900;
     font-size: 22px;
     letter-spacing: 1px;
     color: var(--paper);
+    height: 100%;
   }
   .brand .mark{
     color: var(--vermilion-bright);
     font-size: 24px;
+    line-height: 1;
   }
   .menu{
     display: flex;
+    align-items: stretch;
     gap: 50px;
     list-style: none;
     margin-left: 56px;
+    height: 100%;
+  }
+  .menu-item{
+    display: flex;
+    align-items: stretch;
   }
   .menu-item .menu-label{
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    box-sizing: border-box;
     font-size: 16.5px;
     font-weight: 500;
     color: #b7bcc4;
-    padding: 4px 2px 22px;
+    padding: 0 2px;
     border-bottom: 2px solid transparent;
     transition: color 0.2s ease, border-color 0.2s ease;
   }
