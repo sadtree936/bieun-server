@@ -53,20 +53,19 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  /* ---------- nav ---------- */
-  header{
+  /* ---------- nav / mega menu ---------- */
+  .nav-shell{
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(21,24,29,0.92);
-    backdrop-filter: blur(6px);
+    background: var(--ink);
     border-bottom: 1px solid var(--line);
   }
-  nav.wrap{
+  .nav-top{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 68px;
+    height: 66px;
   }
   .brand{
     display:flex;
@@ -81,16 +80,71 @@
     color: var(--vermilion-bright);
     font-size: 22px;
   }
-  .navlinks{
-    display:flex;
-    gap: 22px;
-    font-size: 13.5px;
-    color: var(--muted);
+  .menu{
+    display: flex;
+    gap: 36px;
+    list-style: none;
   }
-  .navlinks a:hover{ color: var(--paper); }
+  .menu-item .menu-label{
+    display: inline-block;
+    font-size: 14px;
+    color: #b7bcc4;
+    padding: 4px 2px 16px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .menu-item:hover .menu-label{
+    color: var(--paper);
+    border-color: var(--vermilion-bright);
+  }
+  @media (max-width: 860px){
+    .menu{ display: none; }
+  }
 
-  @media (max-width: 720px){
-    .navlinks{ display:none; }
+  .mega-panel{
+    max-height: 0;
+    overflow: hidden;
+    background: var(--panel);
+    border-bottom: 1px solid transparent;
+    transition: max-height 0.28s ease, border-color 0.28s ease;
+  }
+  .nav-shell:hover .mega-panel,
+  .nav-shell:focus-within .mega-panel{
+    max-height: 460px;
+    border-color: var(--line);
+  }
+  @media (max-width: 860px){
+    .nav-shell:hover .mega-panel{ max-height: 0; }
+  }
+  .mega-grid{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 30px;
+    padding: 34px 0;
+  }
+  @media (max-width: 1100px){
+    .mega-grid{ grid-template-columns: repeat(3, 1fr); row-gap: 30px; }
+  }
+  .mega-col{
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+  .mega-col-title{
+    font-family: 'Noto Serif KR', serif;
+    font-size: 13px;
+    color: var(--gold);
+    padding-bottom: 10px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--line);
+  }
+  .mega-col a{
+    font-size: 13px;
+    color: #a9a49a;
+    transition: color 0.15s ease;
+  }
+  .mega-col a:hover{
+    color: var(--paper);
   }
 
   /* ---------- hero ---------- */
@@ -154,19 +208,6 @@
     content: "→";
     margin-left: 14px;
     color: var(--gold);
-  }
-  .hero-cta{
-    display: inline-block;
-    margin-top: 40px;
-    padding: 13px 26px;
-    border: 1px solid var(--vermilion);
-    color: var(--paper);
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    transition: background 0.2s ease, border-color 0.2s ease;
-  }
-  .hero-cta:hover{
-    background: var(--vermilion);
   }
 
   /* ---------- section shell ---------- */
@@ -384,119 +425,6 @@
   }
   .notice strong{ color: var(--paper); }
 
-  /* ---------- whitelist form ---------- */
-  .wl-shell{
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 56px;
-  }
-  @media (max-width: 860px){ .wl-shell{ grid-template-columns: 1fr; } }
-  .wl-info h3{
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 14px;
-  }
-  .wl-info p{
-    font-size: 13.5px;
-    color: var(--muted);
-    margin-bottom: 14px;
-  }
-  .wl-info ol{
-    margin: 18px 0 0 18px;
-    font-size: 13.5px;
-    color: #c2beb1;
-  }
-  .wl-info li{ padding: 5px 0; }
-
-  form.wl-form{
-    border: 1px solid var(--line);
-    background: var(--panel);
-    padding: 40px;
-  }
-  @media (max-width: 520px){ form.wl-form{ padding: 26px; } }
-  .field{
-    margin-bottom: 22px;
-  }
-  .field label{
-    display:block;
-    font-size: 13px;
-    color: var(--gold);
-    margin-bottom: 8px;
-  }
-  .field .optional{
-    color: var(--muted);
-    font-weight: 300;
-  }
-  .field input[type="text"],
-  .field textarea{
-    width: 100%;
-    background: var(--ink);
-    border: 1px solid var(--line);
-    color: var(--paper);
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
-    padding: 12px 14px;
-    transition: border-color 0.2s ease;
-  }
-  .field input[type="text"]:focus,
-  .field textarea:focus{
-    outline: none;
-    border-color: var(--gold);
-  }
-  .field textarea{ resize: vertical; min-height: 90px; }
-  .field-hint{
-    font-size: 11.5px;
-    color: var(--muted);
-    margin-top: 6px;
-  }
-  .field-hint.err{
-    color: var(--vermilion-bright);
-  }
-  .field.invalid input{ border-color: var(--vermilion); }
-
-  .agree{
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    font-size: 13px;
-    color: #c2beb1;
-    margin-bottom: 26px;
-  }
-  .agree input{ margin-top: 3px; accent-color: var(--vermilion); }
-
-  .hp-field{
-    position: absolute;
-    left: -9999px;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-  }
-
-  .wl-submit{
-    background: var(--vermilion);
-    color: var(--paper);
-    border: none;
-    padding: 13px 30px;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s ease, opacity 0.2s ease;
-  }
-  .wl-submit:hover{ background: var(--vermilion-bright); }
-  .wl-submit:disabled{ opacity: 0.5; cursor: not-allowed; }
-
-  .wl-status{
-    margin-top: 18px;
-    font-size: 13.5px;
-    display: none;
-    padding: 12px 14px;
-    border: 1px solid var(--line);
-  }
-  .wl-status.show{ display: block; }
-  .wl-status.ok{ border-color: #4d6b57; color: #8fb89c; }
-  .wl-status.fail{ border-color: var(--vermilion); color: var(--vermilion-bright); }
-
   /* ---------- jobs ---------- */
   .job-grid{
     display: grid;
@@ -627,18 +555,65 @@
 <div class="grain"></div>
 <div class="side-label">江湖競爭 · 傳統成長型 RPG</div>
 
-<header>
-  <nav class="wrap">
+<header class="nav-shell">
+  <nav class="wrap nav-top">
     <div class="brand"><span class="mark">秘</span>비은서버</div>
-    <div class="navlinks">
-      <a href="#war">길드전쟁</a>
-      <a href="#growth">성장</a>
-      <a href="#currency-types">재화</a>
-      <a href="#jobs">직업</a>
-      <a href="#crafting">제작</a>
-      <a href="#whitelist">화이트리스트</a>
-    </div>
+    <ul class="menu">
+      <li class="menu-item"><a href="#war" class="menu-label">길드전쟁</a></li>
+      <li class="menu-item"><a href="#growth" class="menu-label">성장</a></li>
+      <li class="menu-item"><a href="#currency-types" class="menu-label">재화</a></li>
+      <li class="menu-item"><a href="#jobs" class="menu-label">직업</a></li>
+      <li class="menu-item"><a href="#crafting" class="menu-label">제작</a></li>
+      <li class="menu-item"><a href="#details" class="menu-label">세부사항</a></li>
+    </ul>
   </nav>
+  <div class="mega-panel">
+    <div class="wrap mega-grid">
+      <div class="mega-col">
+        <span class="mega-col-title">길드전쟁</span>
+        <a href="#war">보스쟁</a>
+        <a href="#war">점령전</a>
+        <a href="#war">깃발전쟁</a>
+        <a href="#war">투기장</a>
+      </div>
+      <div class="mega-col">
+        <span class="mega-col-title">성장</span>
+        <a href="#growth">무기강화</a>
+        <a href="#growth">경공비급</a>
+        <a href="#growth">재련</a>
+        <a href="#growth">잠재</a>
+        <a href="#growth">부적</a>
+        <a href="#growth">반지</a>
+        <a href="#growth">목걸이</a>
+      </div>
+      <div class="mega-col">
+        <span class="mega-col-title">재화</span>
+        <a href="#currency-types">돈 · 마일리지</a>
+        <a href="#currency">재화 수급</a>
+      </div>
+      <div class="mega-col">
+        <span class="mega-col-title">직업</span>
+        <a href="#jobs">검객</a>
+        <a href="#jobs">자객</a>
+        <a href="#jobs">도사</a>
+        <a href="#jobs">궁수</a>
+        <a href="#jobs">초월자</a>
+      </div>
+      <div class="mega-col">
+        <span class="mega-col-title">제작</span>
+        <a href="#crafting">대장장이 제작</a>
+        <a href="#crafting">물약 제조</a>
+        <a href="#crafting">장비 제작</a>
+        <a href="#crafting">곡괭이</a>
+        <a href="#crafting">용광로</a>
+      </div>
+      <div class="mega-col">
+        <span class="mega-col-title">세부사항</span>
+        <a href="#details">사망 페널티</a>
+        <a href="#details">지원상자</a>
+      </div>
+    </div>
+  </div>
 </header>
 
 <section class="hero">
@@ -657,7 +632,6 @@
       <span>강화·재련</span>
       <span>길드전쟁</span>
     </div>
-    <a href="#whitelist" class="hero-cta">화이트리스트 신청하기</a>
   </div>
 </section>
 
@@ -1113,63 +1087,6 @@
   </div>
 </section>
 
-<section id="whitelist">
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <div class="section-num">捌 · 화이트리스트</div>
-        <h2>서버 입장을 위한 신청서</h2>
-      </div>
-      <div class="section-desc">신청서는 운영진 디스코드 채널로 바로 전달됩니다.<br>승인까지는 보통 1~2일 정도 걸려요.</div>
-    </div>
-
-    <div class="wl-shell">
-      <div class="wl-info">
-        <h3>신청 전 확인해주세요</h3>
-        <p>마인크래프트 닉네임은 대소문자, 언더바(_)만 포함해 3~16자여야 합니다. 실제 인게임 닉네임과 정확히 일치해야 승인이 가능해요.</p>
-        <ol>
-          <li>신청서 제출</li>
-          <li>운영진 디스코드 채널에 자동 게시</li>
-          <li>확인 후 화이트리스트 등록</li>
-          <li>디스코드로 승인 안내</li>
-        </ol>
-      </div>
-
-      <form class="wl-form" id="wlForm" autocomplete="off">
-        <div class="field" id="fieldNick">
-          <label for="mcNick">마인크래프트 닉네임</label>
-          <input type="text" id="mcNick" name="mcNick" placeholder="예: BieunHero" maxlength="16" required>
-          <div class="field-hint" id="nickHint">영문, 숫자, 언더바(_)만 사용 · 3~16자</div>
-        </div>
-
-        <div class="field">
-          <label for="discordTag">디스코드 아이디 <span class="optional">(선택)</span></label>
-          <input type="text" id="discordTag" name="discordTag" placeholder="예: bieun_user">
-        </div>
-
-        <div class="field">
-          <label for="reason">신청 동기 / 하고 싶은 것 <span class="optional">(선택)</span></label>
-          <textarea id="reason" name="reason" placeholder="어떻게 알게 됐는지, 서버에서 뭘 하고 싶은지 편하게 적어주세요"></textarea>
-        </div>
-
-        <!-- 허니팟: 실제 유저에게는 보이지 않음, 봇 스팸 방지용 -->
-        <div class="hp-field" aria-hidden="true">
-          <label for="website">Website</label>
-          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-        </div>
-
-        <label class="agree">
-          <input type="checkbox" id="agreeRules" required>
-          서버 규칙 및 강화/재련 등 아이템 파괴·하락 위험을 이해했으며, 이에 동의합니다.
-        </label>
-
-        <button type="submit" class="wl-submit" id="wlSubmitBtn">신청서 제출</button>
-        <div class="wl-status" id="wlStatus"></div>
-      </form>
-    </div>
-  </div>
-</section>
-
 <footer id="notice">
   <div class="wrap">
     <div class="brand"><span class="mark">秘</span>비은서버</div>
@@ -1177,103 +1094,5 @@
   </div>
 </footer>
 
-<script>
-  // ⚠️ 운영진 설정 필요: 디스코드 채널 설정 > 연동 > 웹후크 에서 생성한 URL을 아래에 붙여넣으세요.
-  // 웹훅 URL은 이 페이지 소스에 그대로 노출되므로, 스팸이 심하면 주기적으로 웹훅을 재생성하는 걸 권장해요.
-  const DISCORD_WEBHOOK_URL = "https://discordapp.com/api/webhooks/1546443152691437568/I5a2SHMIHKbdhpU5FhyCRIp3Tl5Vg5Ufil0VF1lcgo6jvR7ktLs69k2SFWO4mXQjIRvx";
-
-  const wlForm = document.getElementById('wlForm');
-  const nickInput = document.getElementById('mcNick');
-  const nickField = document.getElementById('fieldNick');
-  const nickHint = document.getElementById('nickHint');
-  const submitBtn = document.getElementById('wlSubmitBtn');
-  const statusBox = document.getElementById('wlStatus');
-
-  const NICK_RE = /^[A-Za-z0-9_]{3,16}$/;
-
-  function showStatus(msg, ok){
-    statusBox.textContent = msg;
-    statusBox.className = 'wl-status show ' + (ok ? 'ok' : 'fail');
-  }
-
-  wlForm.addEventListener('submit', async function(e){
-    e.preventDefault();
-    statusBox.className = 'wl-status';
-
-    const nick = nickInput.value.trim();
-    const discordTag = document.getElementById('discordTag').value.trim();
-    const reason = document.getElementById('reason').value.trim();
-    const honeypot = document.getElementById('website').value.trim();
-    const agreed = document.getElementById('agreeRules').checked;
-
-    // 봇 스팸 방지: 허니팟 필드가 채워져 있으면 조용히 무시
-    if (honeypot){
-      showStatus('신청이 접수되었습니다.', true);
-      wlForm.reset();
-      return;
-    }
-
-    if (!NICK_RE.test(nick)){
-      nickField.classList.add('invalid');
-      nickHint.textContent = '닉네임 형식을 확인해주세요 (영문/숫자/언더바, 3~16자)';
-      nickHint.classList.add('err');
-      return;
-    }
-    nickField.classList.remove('invalid');
-    nickHint.classList.remove('err');
-    nickHint.textContent = '영문, 숫자, 언더바(_)만 사용 · 3~16자';
-
-    if (!agreed){
-      showStatus('규칙 동의에 체크해주세요.', false);
-      return;
-    }
-
-    if (DISCORD_WEBHOOK_URL.includes('여기에')){
-      showStatus('아직 신청서 접수가 연결되지 않았어요. 운영진에게 문의해주세요.', false);
-      return;
-    }
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = '전송 중...';
-
-    const payload = {
-      embeds: [{
-        title: '📋 새 화이트리스트 신청',
-        color: 10233388,
-        fields: [
-          { name: '마인크래프트 닉네임', value: nick, inline: true },
-          { name: '디스코드', value: discordTag || '미입력', inline: true },
-          { name: '신청 동기', value: reason || '미입력' }
-        ],
-        timestamp: new Date().toISOString()
-      }]
-    };
-
-    try{
-      const res = await fetch(DISCORD_WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      if (res.ok){
-        showStatus('신청이 접수되었습니다. 디스코드로 결과를 안내드릴게요.', true);
-        wlForm.reset();
-      } else {
-        showStatus('전송에 실패했어요. 잠시 후 다시 시도해주세요.', false);
-      }
-    } catch(err){
-      showStatus('전송 중 오류가 발생했어요. 인터넷 연결을 확인해주세요.', false);
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = '신청서 제출';
-    }
-  });
-
-  nickInput.addEventListener('input', function(){
-    nickField.classList.remove('invalid');
-    nickHint.classList.remove('err');
-    nickHint.textContent = '영문, 숫자, 언더바(_)만 사용 · 3~16자';
-  });
-</script>
 </body>
 </html>
