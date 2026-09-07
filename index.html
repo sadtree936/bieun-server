@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>비은서버 — 길드전 RPG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #15181d;
+    --panel: #1e232b;
+    --panel-2: #242a33;
+    --line: #343c47;
+    --vermilion: #9c342c;
+    --vermilion-bright: #c24737;
+    --gold: #b8975a;
+    --paper: #e7e2d3;
+    --muted: #767b85;
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection{ background: var(--vermilion); color: var(--paper); }
+
+  h1, h2, h3, .serif{
+    font-family: 'Noto Serif KR', serif;
+  }
+
+  a{ color: inherit; text-decoration: none; }
+
+  .wrap{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------- background texture ---------- */
+  .grain{
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(21,24,29,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.wrap{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+  .brand{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    font-family:'Noto Serif KR', serif;
+    font-weight:900;
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+  .brand .mark{
+    color: var(--vermilion-bright);
+    font-size: 22px;
+  }
+  .navlinks{
+    display:flex;
+    gap: 22px;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .navlinks a:hover{ color: var(--paper); }
+
+  @media (max-width: 720px){
+    .navlinks{ display:none; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position: relative;
+    padding: 120px 0 100px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-glyphs{
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 220px;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(184,151,90,0.14);
+    font-weight: 900;
+    user-select: none;
+    z-index: 0;
+  }
+  .hero-inner{ position: relative; z-index: 1; max-width: 680px; }
+  .eyebrow{
+    font-size: 13px;
+    color: var(--vermilion-bright);
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+    display:flex;
+    align-items:center;
+    gap: 10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width: 22px; height: 1px;
+    background: var(--vermilion-bright);
+  }
+  .hero h1{
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1.25;
+    margin-bottom: 22px;
+  }
+  .hero p{
+    font-size: 16px;
+    color: #c2beb1;
+    max-width: 520px;
+    margin-bottom: 34px;
+  }
+  .hero-loop{
+    display:flex;
+    gap: 0;
+    flex-wrap: wrap;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .hero-loop span{
+    padding: 6px 14px 6px 0;
+  }
+  .hero-loop span:not(:last-child)::after{
+    content: "→";
+    margin-left: 14px;
+    color: var(--gold);
+  }
+  .hero-cta{
+    display: inline-block;
+    margin-top: 40px;
+    padding: 13px 26px;
+    border: 1px solid var(--vermilion);
+    color: var(--paper);
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .hero-cta:hover{
+    background: var(--vermilion);
+  }
+
+  /* ---------- section shell ---------- */
+  section{
+    padding: 96px 0;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .section-head{
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+  .section-head h2{
+    font-size: 32px;
+    font-weight: 600;
+  }
+  .section-num{
+    font-family:'Noto Serif KR', serif;
+    color: var(--vermilion-bright);
+    font-size: 15px;
+  }
+  .section-desc{
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 320px;
+    text-align: right;
+  }
+  @media (max-width: 720px){
+    .section-head{ flex-direction: column; align-items: flex-start; }
+    .section-desc{ text-align:left; }
+  }
+
+  /* ---------- guild war cards ---------- */
+  .war-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 720px){ .war-grid{ grid-template-columns: 1fr; } }
+  .war-card{
+    background: var(--panel);
+    padding: 36px;
+    position: relative;
+    transition: background 0.25s ease;
+  }
+  .war-card:hover{ background: var(--panel-2); }
+  .war-card .stamp{
+    position:absolute;
+    top: 30px; right: 30px;
+    width: 44px; height: 44px;
+    border: 1.5px solid var(--vermilion);
+    border-radius: 3px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Noto Serif KR', serif;
+    color: var(--vermilion-bright);
+    font-size: 18px;
+    font-weight: 700;
+    transform: rotate(-4deg);
+    opacity: 0.85;
+  }
+  .war-card h3{
+    font-size: 21px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    padding-right: 60px;
+  }
+  .war-card .tag{
+    font-size: 12px;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display:block;
+  }
+  .war-card ul{
+    list-style: none;
+    font-size: 14px;
+    color: #c2beb1;
+  }
+  .war-card li{
+    padding: 7px 0 7px 16px;
+    border-top: 1px solid var(--line);
+    position: relative;
+  }
+  .war-card li:first-of-type{ border-top: none; }
+  .war-card li::before{
+    content: "";
+    position: absolute;
+    left: 0; top: 15px;
+    width: 5px; height: 5px;
+    background: var(--vermilion);
+    border-radius: 50%;
+  }
+  .war-card li.pending{
+    color: var(--muted);
+    font-style: italic;
+  }
+  .war-card li.pending::before{ background: var(--muted); }
+
+  /* ---------- growth systems ---------- */
+  .growth-list{
+    display: flex;
+    flex-direction: column;
+  }
+  .growth-item{
+    display: grid;
+    grid-template-columns: 220px 1fr 200px;
+    gap: 32px;
+    padding: 32px 0;
+    border-top: 1px solid var(--line);
+  }
+  .growth-item:last-child{ border-bottom: 1px solid var(--line); }
+  @media (max-width: 860px){
+    .growth-item{ grid-template-columns: 1fr; gap: 12px; }
+  }
+  .growth-name{
+    font-family:'Noto Serif KR', serif;
+    font-size: 20px;
+    font-weight: 600;
+    display:flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .growth-name small{
+    font-family:'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .growth-desc{
+    font-size: 14px;
+    color: #c2beb1;
+  }
+  .growth-desc .risk{
+    color: var(--vermilion-bright);
+    font-weight: 500;
+  }
+  .growth-meta{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  @media (max-width: 860px){ .growth-meta{ flex-direction: row; flex-wrap: wrap; } }
+  .pill{
+    font-size: 11.5px;
+    padding: 5px 11px;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .pill.danger{
+    border-color: var(--vermilion);
+    color: var(--vermilion-bright);
+  }
+  .pill.safe{
+    border-color: #4d6b57;
+    color: #8fb89c;
+  }
+
+  /* ---------- currency grid ---------- */
+  .cur-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 900px){ .cur-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px){ .cur-grid{ grid-template-columns: 1fr; } }
+  .cur-card{
+    border: 1px solid var(--line);
+    padding: 24px 20px;
+    background: var(--panel);
+  }
+  .cur-card .idx{
+    font-family:'Noto Serif KR', serif;
+    color: var(--gold);
+    font-size: 13px;
+    margin-bottom: 14px;
+  }
+  .cur-card h4{
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .cur-card p{
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* ---------- notice / risk banner ---------- */
+  .notice{
+    margin-top: 56px;
+    border: 1px solid var(--vermilion);
+    background: rgba(156,52,44,0.08);
+    padding: 24px 28px;
+    display:flex;
+    gap: 18px;
+    align-items:flex-start;
+  }
+  .notice .glyph{
+    font-family:'Noto Serif KR', serif;
+    color: var(--vermilion-bright);
+    font-size: 26px;
+    line-height: 1;
+  }
+  .notice p{
+    font-size: 13.5px;
+    color: #d8c9c5;
+  }
+  .notice strong{ color: var(--paper); }
+
+  /* ---------- whitelist form ---------- */
+  .wl-shell{
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 56px;
+  }
+  @media (max-width: 860px){ .wl-shell{ grid-template-columns: 1fr; } }
+  .wl-info h3{
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .wl-info p{
+    font-size: 13.5px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .wl-info ol{
+    margin: 18px 0 0 18px;
+    font-size: 13.5px;
+    color: #c2beb1;
+  }
+  .wl-info li{ padding: 5px 0; }
+
+  form.wl-form{
+    border: 1px solid var(--line);
+    background: var(--panel);
+    padding: 40px;
+  }
+  @media (max-width: 520px){ form.wl-form{ padding: 26px; } }
+  .field{
+    margin-bottom: 22px;
+  }
+  .field label{
+    display:block;
+    font-size: 13px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .field .optional{
+    color: var(--muted);
+    font-weight: 300;
+  }
+  .field input[type="text"],
+  .field textarea{
+    width: 100%;
+    background: var(--ink);
+    border: 1px solid var(--line);
+    color: var(--paper);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    padding: 12px 14px;
+    transition: border-color 0.2s ease;
+  }
+  .field input[type="text"]:focus,
+  .field textarea:focus{
+    outline: none;
+    border-color: var(--gold);
+  }
+  .field textarea{ resize: vertical; min-height: 90px; }
+  .field-hint{
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .field-hint.err{
+    color: var(--vermilion-bright);
+  }
+  .field.invalid input{ border-color: var(--vermilion); }
+
+  .agree{
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: #c2beb1;
+    margin-bottom: 26px;
+  }
+  .agree input{ margin-top: 3px; accent-color: var(--vermilion); }
+
+  .hp-field{
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .wl-submit{
+    background: var(--vermilion);
+    color: var(--paper);
+    border: none;
+    padding: 13px 30px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease, opacity 0.2s ease;
+  }
+  .wl-submit:hover{ background: var(--vermilion-bright); }
+  .wl-submit:disabled{ opacity: 0.5; cursor: not-allowed; }
+
+  .wl-status{
+    margin-top: 18px;
+    font-size: 13.5px;
+    display: none;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+  }
+  .wl-status.show{ display: block; }
+  .wl-status.ok{ border-color: #4d6b57; color: #8fb89c; }
+  .wl-status.fail{ border-color: var(--vermilion); color: var(--vermilion-bright); }
+
+  /* ---------- jobs ---------- */
+  .job-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 56px;
+  }
+  @media (max-width: 900px){ .job-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px){ .job-grid{ grid-template-columns: 1fr; } }
+  .job-card{
+    background: var(--panel);
+    padding: 30px 26px;
+  }
+  .job-card .glyph-lg{
+    font-family:'Noto Serif KR', serif;
+    font-size: 28px;
+    color: var(--gold);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .job-card h4{
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .job-card .role{
+    font-size: 12px;
+    color: var(--vermilion-bright);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .job-card p{
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+
+  .ascend-panel{
+    border: 1px solid var(--gold);
+    background: rgba(184,151,90,0.06);
+    padding: 36px;
+  }
+  .ascend-panel h3{
+    font-size: 19px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--gold);
+  }
+  .ascend-panel > p{
+    font-size: 13.5px;
+    color: #c2beb1;
+    margin-bottom: 26px;
+    max-width: 640px;
+  }
+  .ascend-table{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 720px){ .ascend-table{ grid-template-columns: repeat(2, 1fr); } }
+  .ascend-cell{
+    border: 1px solid var(--line);
+    padding: 16px;
+    text-align: center;
+    background: var(--panel);
+  }
+  .ascend-cell .from{
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .ascend-cell .to{
+    font-family:'Noto Serif KR', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gold);
+  }
+  .ascend-flow{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    color: var(--paper);
+  }
+  .ascend-flow .step{
+    border: 1px solid var(--line);
+    padding: 8px 14px;
+    background: var(--ink);
+  }
+  .ascend-flow .arrow{ color: var(--vermilion-bright); }
+
+  /* ---------- footer ---------- */
+  footer{
+    padding: 60px 0 50px;
+  }
+  footer .wrap{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  footer .brand{ font-size: 16px; }
+  footer .fmuted{ font-size: 12.5px; color: var(--muted); }
+
+  /* ---------- side vertical label ---------- */
+  .side-label{
+    position: fixed;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 12px;
+    letter-spacing: 6px;
+    color: var(--muted);
+    opacity: 0.5;
+    z-index: 5;
+  }
+  @media (max-width: 1000px){ .side-label{ display:none; } }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="side-label">江湖競爭 · 傳統成長型 RPG</div>
+
+<header>
+  <nav class="wrap">
+    <div class="brand"><span class="mark">秘</span>비은서버</div>
+    <div class="navlinks">
+      <a href="#war">길드전쟁</a>
+      <a href="#growth">성장</a>
+      <a href="#currency-types">재화</a>
+      <a href="#jobs">직업</a>
+      <a href="#crafting">제작</a>
+      <a href="#whitelist">화이트리스트</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-glyphs">秘銀</div>
+  <div class="wrap hero-inner">
+    <div class="eyebrow">길드간 경쟁 · 전통 성장형 RPG</div>
+    <h1>강해지기 위해 싸우고,<br>싸우기 위해 강해진다.</h1>
+    <p>
+      비은서버는 길드 간 경쟁을 중심 콘텐츠로 하는 마인크래프트 RPG 서버입니다.
+      사냥과 광질로 재화를 모으고, 강화와 재련으로 장비를 키워
+      보스쟁 · 점령전 · 깃발전쟁 · 투기장에서 다른 길드와 맞붙습니다.
+    </p>
+    <div class="hero-loop">
+      <span>사냥·광질</span>
+      <span>재화 획득</span>
+      <span>강화·재련</span>
+      <span>길드전쟁</span>
+    </div>
+    <a href="#whitelist" class="hero-cta">화이트리스트 신청하기</a>
+  </div>
+</section>
+
+<section id="war">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">壹 · 길드전쟁</div>
+        <h2>좋은 보상을 두고 겨루는 네 가지 전장</h2>
+      </div>
+      <div class="section-desc">길드끼리 정해진 규칙 안에서 경쟁하고,<br>승리한 길드가 더 좋은 보상을 가져갑니다.</div>
+    </div>
+
+    <div class="war-grid">
+      <div class="war-card">
+        <div class="stamp">戰</div>
+        <span class="tag">정기 콘텐츠</span>
+        <h3>보스쟁</h3>
+        <ul>
+          <li>던전 지형에서 특정 시간마다 보스 몬스터 스폰</li>
+          <li>일반 몬스터보다 압도적으로 높은 체력</li>
+          <li>처치 시 사망 위치에 보상 상자(전리품) 드랍</li>
+          <li>딜을 가장 많이 넣은 <strong>단 한 사람</strong>이 5초간 선루팅권 획득</li>
+          <li>전리품을 먹었더라도 죽으면 그 자리에 드랍</li>
+        </ul>
+      </div>
+
+      <div class="war-card">
+        <div class="stamp">領</div>
+        <span class="tag">주말 콘텐츠 · 준비 중</span>
+        <h3>점령전</h3>
+        <ul>
+          <li class="pending">세부 규칙 미정 — 추후 공지 예정</li>
+          <li class="pending">주말 한정으로 진행될 예정</li>
+        </ul>
+      </div>
+
+      <div class="war-card">
+        <div class="stamp">旗</div>
+        <span class="tag">시간제 이벤트 · 별도 맵</span>
+        <h3>깃발전쟁</h3>
+        <ul>
+          <li>공지 후 정해진 시간에 별도 맵 오픈</li>
+          <li>맵 중앙 깃발을 우클릭하면 20분간 획득 가능</li>
+          <li>깃발을 든 사람은 발광 효과로 위치가 드러남</li>
+          <li>보유 중 사망 시 그 자리에 깃발을 떨굼</li>
+          <li>점수는 시간이 지날수록 더 많이 오름 — 후반 집중 필요</li>
+          <li>20분 종료 후 최고 점수 길드가 승리, 죽어도 재입장 가능</li>
+        </ul>
+      </div>
+
+      <div class="war-card">
+        <div class="stamp">鬪</div>
+        <span class="tag">토너먼트</span>
+        <h3>투기장</h3>
+        <ul>
+          <li>대진표는 랜덤 편성, 맵도 여러 개 중 랜덤 선정</li>
+          <li>길드 대 길드로 맞붙어 전멸시키면 승리</li>
+          <li>3판 2선승제, 단 결승은 5판 3선승제</li>
+          <li>한 번 죽으면 해당 판 즉시 탈락</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="growth">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">貳 · 성장</div>
+        <h2>강화, 재련, 그리고 그 대가</h2>
+      </div>
+      <div class="section-desc">더 강한 장비를 위해 재화를 투자하는 만큼,<br>실패의 위험도 함께 따릅니다.</div>
+    </div>
+
+    <div class="growth-list">
+      <div class="growth-item">
+        <div class="growth-name">무기강화<small>직업무기 전용</small></div>
+        <div class="growth-desc">
+          직업무기의 공격력을 올립니다. 하락은 없지만,
+          <span class="risk">6강부터 실패 시 파괴 확률 80%</span>가 발생합니다.
+          각 차수에 맞는 하급 · 중급 · 상급 강화석이 필요하며,
+          우클릭 뇌물강화(10,000전)로 성공 확률을 10% 올릴 수 있습니다.
+        </div>
+        <div class="growth-meta">
+          <span class="pill">1~5강 안전</span>
+          <span class="pill danger">6강부터 파괴 80%</span>
+        </div>
+      </div>
+
+      <div class="growth-item">
+        <div class="growth-name">경공비급<small>이동기 스킬</small></div>
+        <div class="growth-desc">
+          부족한 이동 수단을 보충하는 스킬 아이템. 제단에 재물을 바쳐 소환한 필드보스를 처치해야
+          획득 가능하며(보스 1마리당 3개), 상시 스폰이 아닙니다.
+          강화 재료는 장비강화석만 사용하며, <span style="color:#8fb89c;">실패해도 파괴되지 않습니다.</span>
+        </div>
+        <div class="growth-meta">
+          <span class="pill">보스 처치로만 획득</span>
+          <span class="pill safe">파괴 없음</span>
+        </div>
+      </div>
+
+      <div class="growth-item">
+        <div class="growth-name">재련<small>갑옷 강화</small></div>
+        <div class="growth-desc">
+          갑옷을 강화합니다. 파괴는 없지만
+          <span class="risk">실패 시 하락 확률 80%이며, 10강에서 0강까지 떨어질 수 있는 확률로 설계되어 있습니다.</span>
+          비용은 강화 차수와 무관하게 3,000전. 행운제련석(+3%) 또는 고급행운제련석(+7%, 동시 사용 불가)으로
+          확률을 보정할 수 있습니다. 장비를 새로 제작해도 <strong>재련 · 잠재 수치는 이전(전승)</strong>됩니다.
+        </div>
+        <div class="growth-meta">
+          <span class="pill safe">파괴 없음</span>
+          <span class="pill danger">하락 80%, 대폭 하락 가능</span>
+          <span class="pill">재제작 시 이전 가능</span>
+        </div>
+      </div>
+
+      <div class="growth-item">
+        <div class="growth-name">잠재<small>갑옷 옵션</small></div>
+        <div class="growth-desc">
+          각 갑옷 부위마다 잠재 옵션을 부여합니다. 돌릴 때마다 1~3줄이 랜덤으로 뜨고,
+          어떤 스탯이 얼마나 오를지도 전부 랜덤입니다. 5,000전 또는 마일리지 1개로 재시도 가능하며
+          (사실상 마일리지로 돌리는 걸 추천), 재련과 마찬가지로 재제작 시 이전됩니다.
+        </div>
+        <div class="growth-meta">
+          <span class="pill">완전 랜덤</span>
+          <span class="pill safe">재화 소모만, 파괴 없음</span>
+          <span class="pill">재제작 시 이전 가능</span>
+        </div>
+      </div>
+
+      <div class="growth-item">
+        <div class="growth-name">부적<small>체력 보완</small></div>
+        <div class="growth-desc">
+          갑옷 강화만으로 부족한 체력을 채워주는 장신구입니다. 일반 등급을 최대 레벨까지 강화하면
+          고급 등급으로 승급됩니다 (일반 10레벨 = 체력 +10, 고급 1레벨 = 체력 +11). 최대 10레벨.
+        </div>
+        <div class="growth-meta">
+          <span class="pill">일반 → 고급 승급</span>
+        </div>
+      </div>
+
+      <div class="growth-item">
+        <div class="growth-name">반지<small>운 · 체력 · 회피</small></div>
+        <div class="growth-desc">
+          운반지 · 체력반지 · 회피반지 세 종류, 최대 2개까지 장착 가능합니다.
+          하급 반지를 승급시켜 상급으로 만들며, 상급은 고유 스탯 +1(체력은 +5)을 제공합니다.
+          강화는 <span class="risk">최대 5강, 실패 시 파괴</span>됩니다.
+        </div>
+        <div class="growth-meta">
+          <span class="pill">최대 2개 장착</span>
+          <span class="pill danger">전 구간 파괴 위험</span>
+        </div>
+      </div>
+
+      <div class="growth-item">
+        <div class="growth-name">목걸이<small>중후반 장신구</small></div>
+        <div class="growth-desc">
+          서버 중후반에 풀리는 장신구로, 강화나 승급 없이 획득한 그대로 사용합니다.
+          공격력 목걸이(+1) 또는 방어력 목걸이(+1) 중 최대 1개 착용 가능합니다.
+        </div>
+        <div class="growth-meta">
+          <span class="pill safe">강화 없음, 획득 즉시 사용</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="notice">
+      <div class="glyph">危</div>
+      <p>
+        <strong>무기강화(6강부터) · 반지</strong>는 실패 시 아이템이 <strong>파괴</strong>됩니다.
+        <strong>재련</strong>은 파괴는 없지만 큰 폭의 <strong>하락</strong>이 발생할 수 있습니다.
+        강화 버튼을 누르기 전, 반드시 현재 성공 확률과 실패 시 결과를 확인하세요.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="currency-types">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">參 · 재화</div>
+        <h2>돈과 마일리지, 두 가지 재화</h2>
+      </div>
+      <div class="section-desc">쓰임이 서로 달라서<br>둘 다 챙겨두는 게 좋아요.</div>
+    </div>
+
+    <div class="cur-grid" style="grid-template-columns: repeat(2, 1fr);">
+      <div class="cur-card">
+        <div class="idx">錢</div>
+        <h4>돈</h4>
+        <p>서버에서 가장 기본이 되는 재화로, 사냥·광질·보스쟁 등 대부분의 콘텐츠에서 얻을 수 있습니다. 아이템 구매, 장비·무기 강화 등 거의 모든 곳에 쓰입니다.</p>
+      </div>
+      <div class="cur-card">
+        <div class="idx">哩</div>
+        <h4>마일리지</h4>
+        <p>사냥과 요일던전에서 획득하는 재화입니다. 초월자(히든직업) 상자, 행운제련석·고급행운제련석, 강화주 등 특수한 아이템을 구매할 때 사용합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="currency">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">肆 · 재화 수급</div>
+        <h2>강화 재료는 어디서 나오는가</h2>
+      </div>
+      <div class="section-desc">여덟 가지 경로로 돈과 재료를 모을 수 있습니다.<br>플레이 스타일에 맞게 조합하세요.</div>
+    </div>
+
+    <div class="cur-grid">
+      <div class="cur-card">
+        <div class="idx">01</div>
+        <h4>사냥</h4>
+        <p>사냥 지역의 몬스터를 처치해 돈과 제작 재료를 얻습니다.</p>
+      </div>
+      <div class="cur-card">
+        <div class="idx">02</div>
+        <h4>광질</h4>
+        <p>모험 지역에서 채광하여 강화석을 제작합니다. 사망 시 채집한 광물을 전부 드랍합니다.</p>
+      </div>
+      <div class="cur-card">
+        <div class="idx">03</div>
+        <h4>농사</h4>
+        <p>길드 부지에서 씨앗을 구매해 곡물을 재배하고, 이를 물약 제조에 사용합니다.</p>
+      </div>
+      <div class="cur-card">
+        <div class="idx">04</div>
+        <h4>모험</h4>
+        <p>보물 상자를 발견하거나 퀘스트를 클리어해 보상과 스탯을 얻습니다.</p>
+      </div>
+      <div class="cur-card">
+        <div class="idx">05</div>
+        <h4>보스쟁</h4>
+        <p>정해진 시간마다 등장하는 보스를 처치해 좋은 보상을 얻습니다.</p>
+      </div>
+      <div class="cur-card">
+        <div class="idx">06</div>
+        <h4>투기장 보상</h4>
+        <p>주말마다 진행되는 투기장에서 우승하면 돈을 받습니다.</p>
+      </div>
+      <div class="cur-card">
+        <div class="idx">07</div>
+        <h4>요일던전</h4>
+        <p>하루 1회 입장 가능한 던전을 클리어해 부적과 돈을 획득합니다.</p>
+      </div>
+      <div class="cur-card">
+        <div class="idx">08</div>
+        <h4>잠수</h4>
+        <p>하루 최대 5시간, 가만히 있어도 소정의 재화를 얻을 수 있습니다. 단, 사냥보다는 효율이 낮습니다.</p>
+      </div>
+    </div>
+
+    <div class="notice" style="border-color: var(--line); background: transparent;">
+      <div class="glyph" style="color: var(--gold);">箱</div>
+      <p>
+        사냥 중 낮은 확률로 <strong>지원상자 · 상급지원상자</strong>가 추가로 드랍됩니다.
+        개봉하면 마일리지, 재련석, 장비 수리권, 하급 반지상자 등을 랜덤하게 얻을 수 있어요.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="jobs">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">伍 · 직업</div>
+        <h2>네 개의 직업, 그리고 그 너머</h2>
+      </div>
+      <div class="section-desc">직업마다 무기와 전투 스타일이 다르며,<br>일부 길드만 히든 직업(초월자)에 도달할 수 있습니다.</div>
+    </div>
+
+    <div class="job-grid">
+      <div class="job-card">
+        <span class="glyph-lg">劍</span>
+        <span class="role">탱커 · 브루저</span>
+        <h4>검객</h4>
+        <p>장검을 사용합니다. 긴 사거리와 묵직하고 강력한 데미지가 특징입니다.</p>
+      </div>
+      <div class="job-card">
+        <span class="glyph-lg">刃</span>
+        <span class="role">도적</span>
+        <h4>자객</h4>
+        <p>빠른 기동성과 강력한 데미지로 적을 빠르게 처치해냅니다.</p>
+      </div>
+      <div class="job-card">
+        <span class="glyph-lg">符</span>
+        <span class="role">힐러 · 서포터</span>
+        <h4>도사</h4>
+        <p>다양한 디버프 스킬과 회복 · 부활 스킬로 적을 약화시키고 아군을 지원합니다.</p>
+      </div>
+      <div class="job-card">
+        <span class="glyph-lg">弓</span>
+        <span class="role">원거리 딜러</span>
+        <h4>궁수</h4>
+        <p>이동기가 적고 몸이 약하지만, 그만큼 강력한 데미지로 적을 처치합니다.</p>
+      </div>
+    </div>
+
+    <div class="ascend-panel">
+      <h3>초월자 — 직업을 넘어서는 히든 직업</h3>
+      <p>
+        각 직업은 조건을 만족하면 전용 히든 직업 "초월자"로 각성할 수 있습니다.
+        단, <strong style="color:var(--paper);">6개 길드 중 4개 길드만</strong> 초월자를 획득할 수 있고,
+        한 번 획득한 길드는 다시 획득할 수 없습니다.
+      </p>
+
+      <div class="ascend-table">
+        <div class="ascend-cell">
+          <div class="from">검객</div>
+          <div class="to">주작염투</div>
+        </div>
+        <div class="ascend-cell">
+          <div class="from">자객</div>
+          <div class="to">백호설인</div>
+        </div>
+        <div class="ascend-cell">
+          <div class="from">도사</div>
+          <div class="to">현무지사</div>
+        </div>
+        <div class="ascend-cell">
+          <div class="from">궁수</div>
+          <div class="to">천궁사</div>
+        </div>
+      </div>
+
+      <div class="ascend-flow">
+        <span class="step">모험 기믹</span>
+        <span class="arrow">→</span>
+        <span class="step">깃발전쟁</span>
+        <span class="arrow">→</span>
+        <span class="step">초월자 보스전쟁</span>
+        <span class="arrow">→</span>
+        <span class="step">초월상자</span>
+      </div>
+      <p style="margin-top:20px; margin-bottom:0;">
+        초월자 보스전쟁은 직업별로 정해진 사흉수(四凶獸)를 두고 다른 길드와 겨루는 방식으로 진행됩니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="crafting">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">陸 · 제작</div>
+        <h2>대장장이, 물약, 그리고 곡괭이</h2>
+      </div>
+      <div class="section-desc">채집한 재료를 실제로 쓸 수 있게<br>가공하는 과정입니다.</div>
+    </div>
+
+    <div class="growth-list">
+      <div class="growth-item">
+        <div class="growth-name">대장장이 제작<small>도구 · 강화석</small></div>
+        <div class="growth-desc">
+          곡괭이와 각종 강화석(장비강화석, 하급 · 중급 · 상급 무기강화석)을 제작할 수 있습니다.
+        </div>
+        <div class="growth-meta">
+          <span class="pill">도구 · 강화석 제작</span>
+        </div>
+      </div>
+
+      <div class="growth-item">
+        <div class="growth-name">물약 제조<small>회복 · 강화주 · 정화주</small></div>
+        <div class="growth-desc">
+          체력회복 물약, 그리고 1분간 모든 강화 확률을 +1% 올려주는 강화주,
+          모든 디버프를 제거하는 정화주를 만들 수 있습니다. 재료는 길드 부지 농사로 조달합니다.
+        </div>
+        <div class="growth-meta">
+          <span class="pill">농사 재료 필요</span>
+        </div>
+      </div>
+
+      <div class="growth-item">
+        <div class="growth-name">장비 제작<small>갑옷 4부위</small></div>
+        <div class="growth-desc">
+          투구 · 갑바 · 허리띠 · 신발을 제작합니다. 갑옷은 상위 단계가 존재하며,
+          새 던전이 추가될 때마다 그 던전에서 나온 전리품으로 다음 단계를 제작할 수 있습니다.
+        </div>
+        <div class="growth-meta">
+          <span class="pill">던전 전리품 필요</span>
+        </div>
+      </div>
+
+      <div class="growth-item">
+        <div class="growth-name">곡괭이<small>채광 도구</small></div>
+        <div class="growth-desc">
+          1강 곡괭이는 대장장이 상점에서 바로 구매할 수 있습니다. 이후 단계는
+          "이전 단계 곡괭이 + 광물"로 제작하며, <span class="risk">실패 시 파괴</span>됩니다.
+          최대 5강까지 있고, 단계가 높을수록 채광 속도와 광물 드랍률이 오릅니다.
+        </div>
+        <div class="growth-meta">
+          <span class="pill">최대 5강</span>
+          <span class="pill danger">제작 실패 시 파괴</span>
+        </div>
+      </div>
+
+      <div class="growth-item">
+        <div class="growth-name">용광로<small>제련 시설</small></div>
+        <div class="growth-desc">
+          캔 광물 중 일부는 바로 사용 가능하지만, 상위 광물은 용광로에서 제련해야 합니다.
+          제련에는 연료가 필요하고 한 번에 최대 3개까지 구울 수 있으며, 제련 시간은 꽤 깁니다
+          (기본 철 기준 약 20분).
+        </div>
+        <div class="growth-meta">
+          <span class="pill">동시 3개 · 연료 필요</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="details">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">柒 · 세부사항</div>
+        <h2>죽으면 무슨 일이 벌어지는가</h2>
+      </div>
+      <div class="section-desc">전투 중 사망은 길드전쟁에서<br>가장 큰 리스크입니다.</div>
+    </div>
+
+    <div class="war-grid">
+      <div class="war-card">
+        <div class="stamp">死</div>
+        <span class="tag">사망 페널티</span>
+        <h3>사망 시</h3>
+        <ul>
+          <li>사망하면 6초간 영혼 상태로 전환됩니다</li>
+          <li>보호아이템 · 귀속아이템을 제외한 모든 소지 아이템을 드랍합니다 (장착 중인 장비는 제외)</li>
+          <li>착용 중인 갑옷 4부위 중 1개가 <strong>100% 확률로 파괴</strong>됩니다</li>
+          <li>파괴된 장비는 장비 수리권으로 복구할 수 있습니다</li>
+        </ul>
+      </div>
+
+      <div class="war-card">
+        <div class="stamp">箱</div>
+        <span class="tag">사냥 중 드랍</span>
+        <h3>지원상자</h3>
+        <ul>
+          <li>사냥 중 낮은 확률로 지원상자 · 상급지원상자가 드랍됩니다</li>
+          <li>개봉 시 마일리지, 재련석, 장비 수리권, 하급 반지상자 등을 랜덤 획득</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="whitelist">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">捌 · 화이트리스트</div>
+        <h2>서버 입장을 위한 신청서</h2>
+      </div>
+      <div class="section-desc">신청서는 운영진 디스코드 채널로 바로 전달됩니다.<br>승인까지는 보통 1~2일 정도 걸려요.</div>
+    </div>
+
+    <div class="wl-shell">
+      <div class="wl-info">
+        <h3>신청 전 확인해주세요</h3>
+        <p>마인크래프트 닉네임은 대소문자, 언더바(_)만 포함해 3~16자여야 합니다. 실제 인게임 닉네임과 정확히 일치해야 승인이 가능해요.</p>
+        <ol>
+          <li>신청서 제출</li>
+          <li>운영진 디스코드 채널에 자동 게시</li>
+          <li>확인 후 화이트리스트 등록</li>
+          <li>디스코드로 승인 안내</li>
+        </ol>
+      </div>
+
+      <form class="wl-form" id="wlForm" autocomplete="off">
+        <div class="field" id="fieldNick">
+          <label for="mcNick">마인크래프트 닉네임</label>
+          <input type="text" id="mcNick" name="mcNick" placeholder="예: BieunHero" maxlength="16" required>
+          <div class="field-hint" id="nickHint">영문, 숫자, 언더바(_)만 사용 · 3~16자</div>
+        </div>
+
+        <div class="field">
+          <label for="discordTag">디스코드 아이디 <span class="optional">(선택)</span></label>
+          <input type="text" id="discordTag" name="discordTag" placeholder="예: bieun_user">
+        </div>
+
+        <div class="field">
+          <label for="reason">신청 동기 / 하고 싶은 것 <span class="optional">(선택)</span></label>
+          <textarea id="reason" name="reason" placeholder="어떻게 알게 됐는지, 서버에서 뭘 하고 싶은지 편하게 적어주세요"></textarea>
+        </div>
+
+        <!-- 허니팟: 실제 유저에게는 보이지 않음, 봇 스팸 방지용 -->
+        <div class="hp-field" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <label class="agree">
+          <input type="checkbox" id="agreeRules" required>
+          서버 규칙 및 강화/재련 등 아이템 파괴·하락 위험을 이해했으며, 이에 동의합니다.
+        </label>
+
+        <button type="submit" class="wl-submit" id="wlSubmitBtn">신청서 제출</button>
+        <div class="wl-status" id="wlStatus"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer id="notice">
+  <div class="wrap">
+    <div class="brand"><span class="mark">秘</span>비은서버</div>
+    <div class="fmuted">본 페이지의 수치·확률·시스템은 밸런스 조정 및 서버 상황에 따라 사전 공지 없이 변경될 수 있습니다 · 최신 내용은 항상 디스코드 공지를 우선 확인해주세요</div>
+  </div>
+</footer>
+
+<script>
+  // ⚠️ 운영진 설정 필요: 디스코드 채널 설정 > 연동 > 웹후크 에서 생성한 URL을 아래에 붙여넣으세요.
+  // 웹훅 URL은 이 페이지 소스에 그대로 노출되므로, 스팸이 심하면 주기적으로 웹훅을 재생성하는 걸 권장해요.
+  const DISCORD_WEBHOOK_URL = "https://discordapp.com/api/webhooks/1546443152691437568/I5a2SHMIHKbdhpU5FhyCRIp3Tl5Vg5Ufil0VF1lcgo6jvR7ktLs69k2SFWO4mXQjIRvx";
+
+  const wlForm = document.getElementById('wlForm');
+  const nickInput = document.getElementById('mcNick');
+  const nickField = document.getElementById('fieldNick');
+  const nickHint = document.getElementById('nickHint');
+  const submitBtn = document.getElementById('wlSubmitBtn');
+  const statusBox = document.getElementById('wlStatus');
+
+  const NICK_RE = /^[A-Za-z0-9_]{3,16}$/;
+
+  function showStatus(msg, ok){
+    statusBox.textContent = msg;
+    statusBox.className = 'wl-status show ' + (ok ? 'ok' : 'fail');
+  }
+
+  wlForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+    statusBox.className = 'wl-status';
+
+    const nick = nickInput.value.trim();
+    const discordTag = document.getElementById('discordTag').value.trim();
+    const reason = document.getElementById('reason').value.trim();
+    const honeypot = document.getElementById('website').value.trim();
+    const agreed = document.getElementById('agreeRules').checked;
+
+    // 봇 스팸 방지: 허니팟 필드가 채워져 있으면 조용히 무시
+    if (honeypot){
+      showStatus('신청이 접수되었습니다.', true);
+      wlForm.reset();
+      return;
+    }
+
+    if (!NICK_RE.test(nick)){
+      nickField.classList.add('invalid');
+      nickHint.textContent = '닉네임 형식을 확인해주세요 (영문/숫자/언더바, 3~16자)';
+      nickHint.classList.add('err');
+      return;
+    }
+    nickField.classList.remove('invalid');
+    nickHint.classList.remove('err');
+    nickHint.textContent = '영문, 숫자, 언더바(_)만 사용 · 3~16자';
+
+    if (!agreed){
+      showStatus('규칙 동의에 체크해주세요.', false);
+      return;
+    }
+
+    if (DISCORD_WEBHOOK_URL.includes('여기에')){
+      showStatus('아직 신청서 접수가 연결되지 않았어요. 운영진에게 문의해주세요.', false);
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = '전송 중...';
+
+    const payload = {
+      embeds: [{
+        title: '📋 새 화이트리스트 신청',
+        color: 10233388,
+        fields: [
+          { name: '마인크래프트 닉네임', value: nick, inline: true },
+          { name: '디스코드', value: discordTag || '미입력', inline: true },
+          { name: '신청 동기', value: reason || '미입력' }
+        ],
+        timestamp: new Date().toISOString()
+      }]
+    };
+
+    try{
+      const res = await fetch(DISCORD_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok){
+        showStatus('신청이 접수되었습니다. 디스코드로 결과를 안내드릴게요.', true);
+        wlForm.reset();
+      } else {
+        showStatus('전송에 실패했어요. 잠시 후 다시 시도해주세요.', false);
+      }
+    } catch(err){
+      showStatus('전송 중 오류가 발생했어요. 인터넷 연결을 확인해주세요.', false);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '신청서 제출';
+    }
+  });
+
+  nickInput.addEventListener('input', function(){
+    nickField.classList.remove('invalid');
+    nickHint.classList.remove('err');
+    nickHint.textContent = '영문, 숫자, 언더바(_)만 사용 · 3~16자';
+  });
+</script>
+</body>
+</html>
