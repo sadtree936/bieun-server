@@ -64,8 +64,8 @@
   .nav-top{
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    height: 66px;
+    justify-content: flex-start;
+    height: 72px;
   }
   .brand{
     display:flex;
@@ -73,23 +73,26 @@
     gap:10px;
     font-family:'Noto Serif KR', serif;
     font-weight:900;
-    font-size: 20px;
+    font-size: 22px;
     letter-spacing: 1px;
+    color: var(--paper);
   }
   .brand .mark{
     color: var(--vermilion-bright);
-    font-size: 22px;
+    font-size: 24px;
   }
   .menu{
     display: flex;
-    gap: 36px;
+    gap: 50px;
     list-style: none;
+    margin-left: 56px;
   }
   .menu-item .menu-label{
     display: inline-block;
-    font-size: 14px;
+    font-size: 16.5px;
+    font-weight: 500;
     color: #b7bcc4;
-    padding: 4px 2px 16px;
+    padding: 4px 2px 22px;
     border-bottom: 2px solid transparent;
     transition: color 0.2s ease, border-color 0.2s ease;
   }
@@ -97,7 +100,7 @@
     color: var(--paper);
     border-color: var(--vermilion-bright);
   }
-  @media (max-width: 860px){
+  @media (max-width: 900px){
     .menu{ display: none; }
   }
 
@@ -113,7 +116,7 @@
     max-height: 460px;
     border-color: var(--line);
   }
-  @media (max-width: 860px){
+  @media (max-width: 900px){
     .nav-shell:hover .mega-panel{ max-height: 0; }
   }
   .mega-grid{
@@ -145,6 +148,17 @@
   }
   .mega-col a:hover{
     color: var(--paper);
+  }
+
+  /* ---------- page switching ---------- */
+  .page{
+    display: none;
+  }
+  .page.active{
+    display: block;
+  }
+  section.page:not(.hero){
+    border-bottom: none;
   }
 
   /* ---------- hero ---------- */
@@ -521,16 +535,39 @@
 
   /* ---------- footer ---------- */
   footer{
-    padding: 60px 0 50px;
+    padding: 50px 0 44px;
   }
-  footer .wrap{
-    display:flex;
+  .footer-wrap{
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .footer-top{
+    display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 16px;
   }
   footer .brand{ font-size: 16px; }
+  .discord-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    color: var(--paper);
+    border: 1px solid var(--line);
+    padding: 10px 18px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .discord-link:hover{
+    border-color: var(--vermilion);
+    background: rgba(156,52,44,0.08);
+  }
+  .discord-glyph{
+    font-family: 'Noto Serif KR', serif;
+    color: var(--gold);
+  }
   footer .fmuted{ font-size: 12.5px; color: var(--muted); }
 
   /* ---------- side vertical label ---------- */
@@ -557,7 +594,7 @@
 
 <header class="nav-shell">
   <nav class="wrap nav-top">
-    <div class="brand"><span class="mark">秘</span>비은서버</div>
+    <a href="#home" class="brand"><span class="mark">秘</span>비은서버</a>
     <ul class="menu">
       <li class="menu-item"><a href="#war" class="menu-label">길드전쟁</a></li>
       <li class="menu-item"><a href="#growth" class="menu-label">성장</a></li>
@@ -590,6 +627,7 @@
         <span class="mega-col-title">재화</span>
         <a href="#currency-types">돈 · 마일리지</a>
         <a href="#currency">재화 수급</a>
+        <a href="#hunting">사냥</a>
       </div>
       <div class="mega-col">
         <span class="mega-col-title">직업</span>
@@ -610,13 +648,12 @@
       <div class="mega-col">
         <span class="mega-col-title">세부사항</span>
         <a href="#details">사망 페널티</a>
-        <a href="#details">지원상자</a>
       </div>
     </div>
   </div>
 </header>
 
-<section class="hero">
+<section class="hero page" id="home">
   <div class="hero-glyphs">秘銀</div>
   <div class="wrap hero-inner">
     <div class="eyebrow">길드간 경쟁 · 전통 성장형 RPG</div>
@@ -635,7 +672,7 @@
   </div>
 </section>
 
-<section id="war">
+<section id="war" class="page">
   <div class="wrap">
     <div class="section-head">
       <div>
@@ -698,7 +735,7 @@
   </div>
 </section>
 
-<section id="growth">
+<section id="growth" class="page">
   <div class="wrap">
     <div class="section-head">
       <div>
@@ -812,7 +849,7 @@
   </div>
 </section>
 
-<section id="currency-types">
+<section id="currency-types" class="page">
   <div class="wrap">
     <div class="section-head">
       <div>
@@ -837,7 +874,7 @@
   </div>
 </section>
 
-<section id="currency">
+<section id="currency" class="page">
   <div class="wrap">
     <div class="section-head">
       <div>
@@ -889,22 +926,50 @@
         <p>하루 최대 5시간, 가만히 있어도 소정의 재화를 얻을 수 있습니다. 단, 사냥보다는 효율이 낮습니다.</p>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="notice" style="border-color: var(--line); background: transparent;">
-      <div class="glyph" style="color: var(--gold);">箱</div>
-      <p>
-        사냥 중 낮은 확률로 <strong>지원상자 · 상급지원상자</strong>가 추가로 드랍됩니다.
-        개봉하면 마일리지, 재련석, 장비 수리권, 하급 반지상자 등을 랜덤하게 얻을 수 있어요.
-      </p>
+<section id="hunting" class="page">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">伍 · 사냥</div>
+        <h2>가장 기본이 되는 재화 루트</h2>
+      </div>
+      <div class="section-desc">사냥은 가장 먼저, 가장 자주 하게 되는 콘텐츠입니다.<br>운이 좋으면 덤도 따라옵니다.</div>
+    </div>
+
+    <div class="war-grid">
+      <div class="war-card">
+        <div class="stamp">獵</div>
+        <span class="tag">기본 재화 루트</span>
+        <h3>사냥</h3>
+        <ul>
+          <li>사냥 지역의 몬스터를 처치해 돈과 제작 재료를 얻습니다</li>
+          <li>모든 성장 콘텐츠(강화 · 재련 · 제작)의 출발점이 되는 가장 기본적인 활동입니다</li>
+          <li>몬스터 종류와 지역에 따라 드랍되는 재료가 다릅니다</li>
+        </ul>
+      </div>
+
+      <div class="war-card">
+        <div class="stamp">箱</div>
+        <span class="tag">사냥 중 드랍</span>
+        <h3>지원상자</h3>
+        <ul>
+          <li>사냥 중 낮은 확률로 지원상자 · 상급지원상자가 드랍됩니다</li>
+          <li>개봉하면 마일리지, 재련석, 장비 수리권, 하급 반지상자 등을 랜덤하게 얻을 수 있습니다</li>
+          <li>상급지원상자일수록 더 좋은 구성품이 나올 확률이 높습니다</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="jobs">
+<section id="jobs" class="page">
   <div class="wrap">
     <div class="section-head">
       <div>
-        <div class="section-num">伍 · 직업</div>
+        <div class="section-num">陸 · 직업</div>
         <h2>네 개의 직업, 그리고 그 너머</h2>
       </div>
       <div class="section-desc">직업마다 무기와 전투 스타일이 다르며,<br>일부 길드만 히든 직업(초월자)에 도달할 수 있습니다.</div>
@@ -980,11 +1045,11 @@
   </div>
 </section>
 
-<section id="crafting">
+<section id="crafting" class="page">
   <div class="wrap">
     <div class="section-head">
       <div>
-        <div class="section-num">陸 · 제작</div>
+        <div class="section-num">柒 · 제작</div>
         <h2>대장장이, 물약, 그리고 곡괭이</h2>
       </div>
       <div class="section-desc">채집한 재료를 실제로 쓸 수 있게<br>가공하는 과정입니다.</div>
@@ -1051,17 +1116,17 @@
   </div>
 </section>
 
-<section id="details">
+<section id="details" class="page">
   <div class="wrap">
     <div class="section-head">
       <div>
-        <div class="section-num">柒 · 세부사항</div>
+        <div class="section-num">捌 · 세부사항</div>
         <h2>죽으면 무슨 일이 벌어지는가</h2>
       </div>
       <div class="section-desc">전투 중 사망은 길드전쟁에서<br>가장 큰 리스크입니다.</div>
     </div>
 
-    <div class="war-grid">
+    <div class="war-grid" style="grid-template-columns: 1fr;">
       <div class="war-card">
         <div class="stamp">死</div>
         <span class="tag">사망 페널티</span>
@@ -1073,26 +1138,54 @@
           <li>파괴된 장비는 장비 수리권으로 복구할 수 있습니다</li>
         </ul>
       </div>
-
-      <div class="war-card">
-        <div class="stamp">箱</div>
-        <span class="tag">사냥 중 드랍</span>
-        <h3>지원상자</h3>
-        <ul>
-          <li>사냥 중 낮은 확률로 지원상자 · 상급지원상자가 드랍됩니다</li>
-          <li>개봉 시 마일리지, 재련석, 장비 수리권, 하급 반지상자 등을 랜덤 획득</li>
-        </ul>
-      </div>
     </div>
   </div>
 </section>
 
 <footer id="notice">
-  <div class="wrap">
-    <div class="brand"><span class="mark">秘</span>비은서버</div>
+  <div class="wrap footer-wrap">
+    <div class="footer-top">
+      <div class="brand"><span class="mark">秘</span>비은서버</div>
+      <a href="https://discord.gg/wbYhcC7tW" target="_blank" rel="noopener" class="discord-link">
+        <span class="discord-glyph">會</span> 디스코드 참여하기
+      </a>
+    </div>
     <div class="fmuted">본 페이지의 수치·확률·시스템은 밸런스 조정 및 서버 상황에 따라 사전 공지 없이 변경될 수 있습니다 · 최신 내용은 항상 디스코드 공지를 우선 확인해주세요</div>
   </div>
 </footer>
+
+<script>
+  const PAGE_IDS = ['home','war','growth','currency-types','currency','hunting','jobs','crafting','details'];
+
+  function showPage(id, updateHash = true){
+    if (!PAGE_IDS.includes(id)) id = 'home';
+    PAGE_IDS.forEach(pid => {
+      const el = document.getElementById(pid);
+      if (el) el.classList.toggle('active', pid === id);
+    });
+    if (updateHash){
+      history.pushState(null, '', '#' + id);
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  }
+
+  document.addEventListener('click', function(e){
+    const link = e.target.closest('a[href^="#"]');
+    if (!link) return;
+    const id = link.getAttribute('href').slice(1);
+    if (!PAGE_IDS.includes(id)) return;
+    e.preventDefault();
+    showPage(id);
+  });
+
+  window.addEventListener('popstate', function(){
+    const id = location.hash ? location.hash.slice(1) : 'home';
+    showPage(id, false);
+  });
+
+  const initialId = location.hash ? location.hash.slice(1) : 'home';
+  showPage(initialId, false);
+</script>
 
 </body>
 </html>
