@@ -124,7 +124,7 @@
   }
   .nav-shell:hover .mega-panel,
   .nav-shell:focus-within .mega-panel{
-    max-height: 460px;
+    max-height: 620px;
     border-color: var(--line);
   }
   @media (max-width: 900px){
@@ -132,8 +132,8 @@
   }
   .mega-grid{
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 30px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px 26px;
     padding: 34px 0;
   }
   @media (max-width: 1100px){
@@ -427,6 +427,27 @@
     font-size: 13px;
     color: var(--muted);
   }
+  .weekday-grid{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  @media (max-width: 620px){ .weekday-grid{ grid-template-columns: repeat(2, 1fr); } }
+  .weekday-cell{
+    border: 1px solid var(--line);
+    background: var(--ink);
+    padding: 10px 10px 12px;
+    font-size: 12px;
+    color: #c2beb1;
+    text-align: center;
+  }
+  .weekday-cell .wd{
+    display: block;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 15px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
 
   /* ---------- notice / risk banner ---------- */
   .notice{
@@ -544,6 +565,120 @@
   }
   .ascend-flow .arrow{ color: var(--vermilion-bright); }
 
+  /* ---------- rules ---------- */
+  .rule-block{
+    margin-bottom: 54px;
+  }
+  .rule-block:last-child{ margin-bottom: 0; }
+  .rule-block-head{
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .rule-block-head .rn{
+    font-family: 'Noto Serif KR', serif;
+    color: var(--gold);
+    font-size: 15px;
+  }
+  .rule-block-head h3{
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .rule-cols{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+  @media (max-width: 780px){ .rule-cols{ grid-template-columns: 1fr; } }
+  .rule-col h4{
+    font-size: 14px;
+    color: var(--gold);
+    font-family: 'Noto Serif KR', serif;
+    margin-bottom: 12px;
+  }
+  .rule-list{
+    list-style: none;
+    font-size: 13.5px;
+    color: #c2beb1;
+  }
+  .rule-list li{
+    padding: 8px 0 8px 18px;
+    border-top: 1px solid var(--line);
+    position: relative;
+  }
+  .rule-list li:first-child{ border-top: none; }
+  .rule-list li::before{
+    content:"";
+    position:absolute;
+    left:0; top:16px;
+    width:5px; height:5px;
+    background: var(--vermilion);
+    border-radius: 50%;
+  }
+  .rule-list.ok li::before{ background: #6f9b7d; }
+
+  .severe-banner{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    border: 1px solid var(--vermilion);
+    background: rgba(156,52,44,0.1);
+    padding: 20px 26px;
+    margin-top: 22px;
+  }
+  .severe-banner .glyph{
+    font-family:'Noto Serif KR', serif;
+    color: var(--vermilion-bright);
+    font-size: 24px;
+  }
+  .severe-banner p{
+    font-size: 13.5px;
+    color: #e3cfcb;
+  }
+  .severe-banner strong{ color: var(--paper); }
+
+  .sanction-flow{
+    display:flex;
+    flex-wrap: wrap;
+    align-items:center;
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .sanction-flow .step{
+    border: 1px solid var(--line);
+    background: var(--panel);
+    padding: 12px 20px;
+    font-size: 13.5px;
+    color: var(--paper);
+  }
+  .sanction-flow .step.final{
+    border-color: var(--vermilion);
+    color: var(--vermilion-bright);
+    font-weight: 600;
+  }
+  .sanction-flow .arrow{ color: var(--gold); }
+
+  .refund-table{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  .refund-table th, .refund-table td{
+    text-align: left;
+    padding: 12px 14px;
+    border-top: 1px solid var(--line);
+  }
+  .refund-table th{
+    color: var(--gold);
+    font-weight: 500;
+    font-size: 12.5px;
+  }
+  .refund-table td.yes{ color: #8fb89c; }
+  .refund-table td.no{ color: var(--vermilion-bright); }
+
   /* ---------- footer ---------- */
   footer{
     padding: 50px 0 44px;
@@ -613,6 +748,7 @@
       <li class="menu-item"><a href="#jobs" class="menu-label">직업</a></li>
       <li class="menu-item"><a href="#crafting" class="menu-label">제작</a></li>
       <li class="menu-item"><a href="#details" class="menu-label">세부사항</a></li>
+      <li class="menu-item"><a href="#rules" class="menu-label">규칙</a></li>
     </ul>
   </nav>
   <div class="mega-panel">
@@ -636,7 +772,7 @@
       </div>
       <div class="mega-col">
         <span class="mega-col-title">재화</span>
-        <a href="#currency-types">돈 · 마일리지</a>
+        <a href="#currency-types">전 · 마일리지</a>
         <a href="#currency">재화 수급</a>
         <a href="#hunting">사냥</a>
       </div>
@@ -657,8 +793,26 @@
         <a href="#crafting">용광로</a>
       </div>
       <div class="mega-col">
+        <span class="mega-col-title">퀘스트</span>
+        <a href="#quests">모험지역 퀘스트</a>
+        <a href="#quests">문파의뢰</a>
+      </div>
+      <div class="mega-col">
+        <span class="mega-col-title">모험</span>
+        <a href="#adventure">퀘스트</a>
+        <a href="#adventure">보물상자</a>
+        <a href="#adventure">초월자</a>
+      </div>
+      <div class="mega-col">
         <span class="mega-col-title">세부사항</span>
         <a href="#details">사망 페널티</a>
+      </div>
+      <div class="mega-col">
+        <span class="mega-col-title">규칙</span>
+        <a href="#rules">입장 및 환불</a>
+        <a href="#rules">문파 운영 규정</a>
+        <a href="#rules">계정 · 버그 · 핵</a>
+        <a href="#rules">언행 · 제재 단계</a>
       </div>
     </div>
   </div>
@@ -865,7 +1019,7 @@
     <div class="section-head">
       <div>
         <div class="section-num">參 · 재화</div>
-        <h2>돈과 마일리지, 두 가지 재화</h2>
+        <h2>전과 마일리지, 두 가지 재화</h2>
       </div>
       <div class="section-desc">쓰임이 서로 달라서<br>둘 다 챙겨두는 게 좋아요.</div>
     </div>
@@ -873,7 +1027,7 @@
     <div class="cur-grid" style="grid-template-columns: repeat(2, 1fr);">
       <div class="cur-card">
         <div class="idx">錢</div>
-        <h4>돈</h4>
+        <h4>전(錢)</h4>
         <p>서버에서 가장 기본이 되는 재화로, 사냥·광질·보스쟁 등 대부분의 콘텐츠에서 얻을 수 있습니다. 아이템 구매, 장비·무기 강화 등 거의 모든 곳에 쓰입니다.</p>
       </div>
       <div class="cur-card">
@@ -926,15 +1080,22 @@
         <h4>투기장 보상</h4>
         <p>주말마다 진행되는 투기장에서 우승하면 돈을 받습니다.</p>
       </div>
-      <div class="cur-card">
+      <div class="cur-card" style="grid-column: span 2;">
         <div class="idx">07</div>
         <h4>요일던전</h4>
-        <p>하루 1회 입장 가능한 던전을 클리어해 부적과 돈을 획득합니다.</p>
+        <p style="margin-bottom:14px;">하루 1회 입장 가능한 던전을 클리어해 부적과 돈을 획득합니다. 요일마다 추가 보상이 다릅니다.</p>
+        <div class="weekday-grid">
+          <div class="weekday-cell"><span class="wd">월</span>부적 + 돈</div>
+          <div class="weekday-cell"><span class="wd">화</span>더 많은 부적</div>
+          <div class="weekday-cell"><span class="wd">수</span>부적 + 강화석</div>
+          <div class="weekday-cell"><span class="wd">목</span>부적 + 재련석</div>
+          <div class="weekday-cell"><span class="wd">금</span>부적 + 돈</div>
+        </div>
       </div>
       <div class="cur-card">
         <div class="idx">08</div>
-        <h4>잠수</h4>
-        <p>하루 최대 5시간, 가만히 있어도 소정의 재화를 얻을 수 있습니다. 단, 사냥보다는 효율이 낮습니다.</p>
+        <h4>수련</h4>
+        <p>하루 최대 5시간, 잠수 상태로 가만히 있어도 소정의 재화를 얻을 수 있습니다. 단, 사냥보다는 효율이 낮습니다.</p>
       </div>
     </div>
   </div>
@@ -976,11 +1137,96 @@
   </div>
 </section>
 
+<section id="quests" class="page">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">陸 · 퀘스트</div>
+        <h2>혼자 찾는 퀘스트, 함께 푸는 의뢰</h2>
+      </div>
+      <div class="section-desc">모험지역 퀘스트는 개인, 문파의뢰는 다같이.<br>둘 다 챙기면 성장 속도가 확 달라져요.</div>
+    </div>
+
+    <div class="growth-list">
+      <div class="growth-item">
+        <div class="growth-name">모험지역 퀘스트<small>개인 · 상시</small></div>
+        <div class="growth-desc">
+          모험지역을 탐험하다 보면 우연히 퀘스트를 발견할 수 있습니다. 클리어하면
+          공격력 · 회피 · 방어력 · 체력 등 소량의 영구 스탯을 얻습니다. 서버의 모든 유저가 도전할 수 있지만,
+          <span class="risk">퀘스트 위치는 공개되지 않으므로 직접 찾아야 합니다.</span>
+        </div>
+        <div class="growth-meta">
+          <span class="pill">위치 비공개</span>
+          <span class="pill">영구 스탯 보상</span>
+        </div>
+      </div>
+
+      <div class="growth-item">
+        <div class="growth-name">문파의뢰<small>문파(길드) 단위 · 주간</small></div>
+        <div class="growth-desc">
+          문파원들이 다같이 클리어하는 주간 퀘스트로, 항상 3개 의뢰가 고정으로 주어집니다:
+          몬스터 처치 5,000마리 · 광물수집 100개 · 플레이타임 80시간.
+          클리어 시 문파원 개인별로 50,000전 + 행운제련석 5개를 받고,
+          문파장에게는 추가로 300,000전이 문파 보상으로 지급됩니다.
+        </div>
+        <div class="growth-meta">
+          <span class="pill">고정 의뢰 3종</span>
+          <span class="pill safe">개인 5만전 + 행운제련석 5개</span>
+          <span class="pill">문파장 추가 30만전</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="adventure" class="page">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">柒 · 모험</div>
+        <h2>모험지역에서 얻을 수 있는 것들</h2>
+      </div>
+      <div class="section-desc">퀘스트 · 보물상자 · 초월자.<br>세 가지 모두 모험지역에 숨어 있습니다.</div>
+    </div>
+
+    <div class="war-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="war-card">
+        <div class="stamp">問</div>
+        <span class="tag">개인 상시</span>
+        <h3>퀘스트</h3>
+        <ul>
+          <li>모험지역 곳곳에 숨어있는 퀘스트</li>
+          <li>클리어 시 소량의 스탯과 보상 획득</li>
+        </ul>
+      </div>
+      <div class="war-card">
+        <div class="stamp">寶</div>
+        <span class="tag">선착순 보너스</span>
+        <h3>보물상자</h3>
+        <ul>
+          <li>모험지역에 숨겨진 보물상자, 우클릭으로 개봉</li>
+          <li>좋은 보상을 주며, <strong>첫 발견자</strong>는 더 좋은 보상을 받습니다</li>
+        </ul>
+      </div>
+      <div class="war-card">
+        <div class="stamp">仙</div>
+        <span class="tag">히든 직업</span>
+        <h3>초월자</h3>
+        <ul>
+          <li>모험/기믹을 통해 획득 가능한 히든 직업</li>
+          <li>찾기가 매우 어렵게 설계되어 있습니다</li>
+          <li>자세한 획득 조건은 직업 페이지 참고</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="jobs" class="page">
   <div class="wrap">
     <div class="section-head">
       <div>
-        <div class="section-num">陸 · 직업</div>
+        <div class="section-num">捌 · 직업</div>
         <h2>네 개의 직업, 그리고 그 너머</h2>
       </div>
       <div class="section-desc">직업마다 무기와 전투 스타일이 다르며,<br>일부 길드만 히든 직업(초월자)에 도달할 수 있습니다.</div>
@@ -1060,7 +1306,7 @@
   <div class="wrap">
     <div class="section-head">
       <div>
-        <div class="section-num">柒 · 제작</div>
+        <div class="section-num">玖 · 제작</div>
         <h2>대장장이, 물약, 그리고 곡괭이</h2>
       </div>
       <div class="section-desc">채집한 재료를 실제로 쓸 수 있게<br>가공하는 과정입니다.</div>
@@ -1131,7 +1377,7 @@
   <div class="wrap">
     <div class="section-head">
       <div>
-        <div class="section-num">捌 · 세부사항</div>
+        <div class="section-num">拾 · 세부사항</div>
         <h2>죽으면 무슨 일이 벌어지는가</h2>
       </div>
       <div class="section-desc">전투 중 사망은 길드전쟁에서<br>가장 큰 리스크입니다.</div>
@@ -1153,6 +1399,140 @@
   </div>
 </section>
 
+<section id="rules" class="page">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">拾壹 · 규칙</div>
+        <h2>서버를 함께 쓰기 위한 최소한의 약속</h2>
+      </div>
+      <div class="section-desc">모르고 어겼어도 제재는 동일하게 적용됩니다.<br>입장 전 반드시 확인해주세요.</div>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-block-head"><span class="rn">01</span><h3>입장 및 환불</h3></div>
+      <table class="refund-table">
+        <thead>
+          <tr><th>항목</th><th>환불 가능 여부</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>서버 입장비 5,000원</td><td>—</td></tr>
+          <tr><td>서버 입장 이후</td><td class="no">환불 불가</td></tr>
+          <tr><td>운영자 귀책으로 서버가 조기 종료된 경우</td><td class="yes">전액 환불</td></tr>
+          <tr><td>서버 규칙 위반으로 제재를 받은 경우</td><td class="no">환불 불가</td></tr>
+          <tr><td>시즌 종료 이후</td><td class="no">서버 이용 불가 (환불 대상 아님)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-block-head"><span class="rn">02</span><h3>문파(길드) 운영 규정</h3></div>
+      <div class="rule-cols">
+        <div class="rule-col">
+          <h4>금지 사항</h4>
+          <ul class="rule-list">
+            <li>문파 간 거래 금지</li>
+            <li>문파 간 연합 금지</li>
+          </ul>
+        </div>
+        <div class="rule-col">
+          <h4>문파원 관리</h4>
+          <ul class="rule-list ok">
+            <li>문파원이 추방되거나 자진탈퇴한 경우, 문파장은 새로운 문파원을 영입할 수 있습니다</li>
+            <li>문파장은 특별한 사유가 있을 경우 문파원을 퇴출시킬 수 있습니다</li>
+            <li>다른 문파장과 합의한 경우, 문파원을 트레이드할 수 있습니다</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-block-head"><span class="rn">03</span><h3>계정</h3></div>
+      <ul class="rule-list">
+        <li>1인 1계정 원칙</li>
+        <li>계정 공유 금지</li>
+        <li>타인 계정 사용 금지</li>
+        <li>부계정으로 보상 중복 수령 금지</li>
+      </ul>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-block-head"><span class="rn">04</span><h3>버그</h3></div>
+      <div class="rule-cols">
+        <div class="rule-col">
+          <h4>기본 원칙</h4>
+          <ul class="rule-list">
+            <li>버그 발견 시 악용 금지</li>
+            <li>발견 즉시 운영자에게 신고</li>
+            <li>버그로 얻은 아이템 · 재화는 회수될 수 있습니다</li>
+          </ul>
+        </div>
+        <div class="rule-col">
+          <h4>신고자와 악용자는 다르게 취급됩니다</h4>
+          <ul class="rule-list ok">
+            <li>버그를 발견해 신고한 사람 — 보상 가능</li>
+          </ul>
+          <ul class="rule-list" style="margin-top:8px;">
+            <li>버그를 발견하고 반복적으로 악용한 사람 — 강력 제재</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-block-head"><span class="rn">05</span><h3>핵 · 치트 · 외부 프로그램</h3></div>
+      <ul class="rule-list">
+        <li>핵</li>
+        <li>오토클릭</li>
+        <li>매크로</li>
+        <li>자동 사냥 프로그램</li>
+        <li>비정상적인 이동</li>
+        <li>공격속도 조작</li>
+        <li>패킷 변조</li>
+        <li>서버 · 클라이언트 변조</li>
+        <li>게임 데이터를 조작하는 프로그램</li>
+      </ul>
+      <div class="severe-banner">
+        <span class="glyph">禁</span>
+        <p><strong>적발 시 예외 없이 영구 정지.</strong> 위 항목은 경고 단계 없이 즉시 적용됩니다.</p>
+      </div>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-block-head"><span class="rn">06</span><h3>언행 규칙</h3></div>
+      <ul class="rule-list">
+        <li>욕설</li>
+        <li>성희롱</li>
+        <li>패드립</li>
+        <li>가족 비하</li>
+        <li>인신공격</li>
+        <li>지속적인 도발</li>
+        <li>타인의 개인정보 공개</li>
+        <li>협박</li>
+        <li>사칭</li>
+        <li>고의적인 분쟁 유도</li>
+      </ul>
+      <div class="severe-banner">
+        <span class="glyph">警</span>
+        <p><strong>개인정보 공개는 즉시 강력 제재</strong> 대상입니다.</p>
+      </div>
+    </div>
+
+    <div class="rule-block">
+      <div class="rule-block-head"><span class="rn">07</span><h3>제재 단계</h3></div>
+      <div class="sanction-flow">
+        <span class="step">경고</span>
+        <span class="arrow">→</span>
+        <span class="step">인게임 재화 벌금</span>
+        <span class="arrow">→</span>
+        <span class="step">서버 정지</span>
+        <span class="arrow">→</span>
+        <span class="step final">영구 차단</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer id="notice">
   <div class="wrap footer-wrap">
     <div class="footer-top">
@@ -1166,7 +1546,7 @@
 </footer>
 
 <script>
-  const PAGE_IDS = ['home','war','growth','currency-types','currency','hunting','jobs','crafting','details'];
+  const PAGE_IDS = ['home','war','growth','currency-types','currency','hunting','quests','adventure','jobs','crafting','details','rules'];
 
   function showPage(id, updateHash = true){
     if (!PAGE_IDS.includes(id)) id = 'home';
