@@ -679,6 +679,96 @@
   .refund-table td.yes{ color: #8fb89c; }
   .refund-table td.no{ color: var(--vermilion-bright); }
 
+  /* ---------- roadmap ---------- */
+  .roadmap-note{
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+  .roadmap-week{
+    margin-bottom: 44px;
+  }
+  .roadmap-week-title{
+    font-family: 'Noto Serif KR', serif;
+    font-size: 14px;
+    color: var(--gold);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .roadmap-list{
+    display: flex;
+    flex-direction: column;
+  }
+  .roadmap-item{
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 24px;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+  }
+  .roadmap-item:first-child{ border-top: none; }
+  @media (max-width: 600px){
+    .roadmap-item{ grid-template-columns: 64px 1fr; gap: 14px; }
+  }
+  .roadmap-day{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .roadmap-day .num{
+    font-family: 'Noto Serif KR', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--paper);
+  }
+  .roadmap-day .num small{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .roadmap-day .weekend-tag{
+    font-size: 10.5px;
+    color: var(--vermilion-bright);
+    border: 1px solid var(--vermilion);
+    padding: 2px 7px;
+    display: inline-block;
+    width: fit-content;
+  }
+  .roadmap-body{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding-top: 2px;
+  }
+  .roadmap-tag{
+    font-size: 13.5px;
+    color: #d8d2c4;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 7px 14px;
+  }
+  .roadmap-tag.highlight{
+    color: var(--gold);
+    border-color: var(--gold);
+    background: rgba(184,151,90,0.08);
+  }
+  .roadmap-tag.weekend{
+    color: var(--vermilion-bright);
+    border-color: var(--vermilion);
+    background: rgba(156,52,44,0.08);
+  }
+  .roadmap-empty{
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    padding-top: 4px;
+  }
+
   /* ---------- footer ---------- */
   footer{
     padding: 50px 0 44px;
@@ -748,6 +838,7 @@
       <li class="menu-item"><a href="#jobs" class="menu-label">직업</a></li>
       <li class="menu-item"><a href="#crafting" class="menu-label">제작</a></li>
       <li class="menu-item"><a href="#details" class="menu-label">세부사항</a></li>
+      <li class="menu-item"><a href="#roadmap" class="menu-label">로드맵</a></li>
       <li class="menu-item"><a href="#rules" class="menu-label">규칙</a></li>
     </ul>
   </nav>
@@ -806,6 +897,10 @@
       <div class="mega-col">
         <span class="mega-col-title">세부사항</span>
         <a href="#details">사망 페널티</a>
+      </div>
+      <div class="mega-col">
+        <span class="mega-col-title">로드맵</span>
+        <a href="#roadmap">시즌 일정</a>
       </div>
       <div class="mega-col">
         <span class="mega-col-title">규칙</span>
@@ -1399,11 +1494,232 @@
   </div>
 </section>
 
+<section id="roadmap" class="page">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-num">拾壹 · 로드맵</div>
+        <h2>35일간의 시즌 일정</h2>
+      </div>
+      <div class="section-desc">아래 날짜는 "N일차" 기준이며,<br>실제 캘린더 날짜는 추후 별도 공지됩니다.</div>
+    </div>
+
+    <div class="roadmap-note">※ 일정은 서버 상황에 따라 순서나 내용이 변경될 수 있습니다.</div>
+
+    <div class="roadmap-week">
+      <div class="roadmap-week-title">1주차</div>
+      <div class="roadmap-list">
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">01<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag highlight">서버 오픈</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">02<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag highlight">2차 전직 출시</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">03<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag">유저 간담회 및 밸런스 패치</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">04<small>일차</small></span></div>
+          <div class="roadmap-empty">예정된 이벤트 없음</div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">05<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag highlight">신규 던전 및 신규 장비</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day">
+            <span class="num">06<small>일차</small></span>
+            <span class="weekend-tag">토요일</span>
+          </div>
+          <div class="roadmap-body">
+            <span class="roadmap-tag">유저 간담회 및 밸런스 패치</span>
+            <span class="roadmap-tag weekend">주말컨텐츠 점령전</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day">
+            <span class="num">07<small>일차</small></span>
+            <span class="weekend-tag">일요일</span>
+          </div>
+          <div class="roadmap-body"><span class="roadmap-tag weekend">주말컨텐츠 투기장</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-week">
+      <div class="roadmap-week-title">2주차</div>
+      <div class="roadmap-list">
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">08<small>일차</small></span></div>
+          <div class="roadmap-empty">예정된 이벤트 없음</div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">09<small>일차</small></span></div>
+          <div class="roadmap-body">
+            <span class="roadmap-tag highlight">신규 던전 및 신규 장비</span>
+            <span class="roadmap-tag highlight">경공비급 해금</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">10<small>일차</small></span></div>
+          <div class="roadmap-body">
+            <span class="roadmap-tag highlight">첫 번째 초월자 등장</span>
+            <span class="roadmap-tag">밸런스 패치</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">11<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag highlight">신규 보스 추가</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">12<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag">경공비급 스킨 뽑기 추가</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day">
+            <span class="num">13<small>일차</small></span>
+            <span class="weekend-tag">토요일</span>
+          </div>
+          <div class="roadmap-body">
+            <span class="roadmap-tag">유저 간담회 및 밸런스 패치</span>
+            <span class="roadmap-tag">문파 롤 내전</span>
+            <span class="roadmap-tag weekend">주말컨텐츠 점령전</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day">
+            <span class="num">14<small>일차</small></span>
+            <span class="weekend-tag">일요일</span>
+          </div>
+          <div class="roadmap-body"><span class="roadmap-tag weekend">주말컨텐츠 투기장</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-week">
+      <div class="roadmap-week-title">3주차</div>
+      <div class="roadmap-list">
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">15<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag highlight">3차 전직 출시</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">16<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag">3차 전직 밸런스 패치</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">17<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag highlight">두 번째 초월자 등장</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">18<small>일차</small></span></div>
+          <div class="roadmap-body">
+            <span class="roadmap-tag highlight">신규 던전 출시 및 신규 장비 해금</span>
+            <span class="roadmap-tag highlight">목걸이 출시</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">19<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag">밸런스 패치</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">20<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag weekend">주말컨텐츠 점령전</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">21<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag weekend">주말컨텐츠 투기장</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-week">
+      <div class="roadmap-week-title">4주차</div>
+      <div class="roadmap-list">
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">22<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag">간담회 및 밸런스 패치</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">23<small>일차</small></span></div>
+          <div class="roadmap-empty">예정된 이벤트 없음</div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">24<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag highlight">세 번째 초월자 등장</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">25<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag">두 번째 반지칸 해금</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">26<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag">밸런스 패치</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">27<small>일차</small></span></div>
+          <div class="roadmap-body">
+            <span class="roadmap-tag weekend">주말컨텐츠 점령전</span>
+            <span class="roadmap-tag">오목 문파 대항전</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">28<small>일차</small></span></div>
+          <div class="roadmap-body">
+            <span class="roadmap-tag weekend">주말컨텐츠 투기장</span>
+            <span class="roadmap-tag">섯다 문파 대항전</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-week">
+      <div class="roadmap-week-title">5주차 · 시즌 마무리</div>
+      <div class="roadmap-list">
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">29<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag highlight">마지막 간담회</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">30<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag highlight">4차 전직 해금</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">31<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag highlight">마지막 던전 및 장비 해금</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">32<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag highlight">네 번째 초월자 등장</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">33<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag highlight">이벤트 보스전</span></div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">34<small>일차</small></span></div>
+          <div class="roadmap-body">
+            <span class="roadmap-tag highlight">최종 순위결정전 · 점령전</span>
+            <span class="roadmap-tag highlight">최종 순위결정전 · 깃발전쟁</span>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-day"><span class="num">35<small>일차</small></span></div>
+          <div class="roadmap-body"><span class="roadmap-tag highlight">최종 순위결정전 · 투기장</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="rules" class="page">
   <div class="wrap">
     <div class="section-head">
       <div>
-        <div class="section-num">拾壹 · 규칙</div>
+        <div class="section-num">拾貳 · 규칙</div>
         <h2>서버를 함께 쓰기 위한 최소한의 약속</h2>
       </div>
       <div class="section-desc">모르고 어겼어도 제재는 동일하게 적용됩니다.<br>입장 전 반드시 확인해주세요.</div>
@@ -1546,7 +1862,7 @@
 </footer>
 
 <script>
-  const PAGE_IDS = ['home','war','growth','currency-types','currency','hunting','quests','adventure','jobs','crafting','details','rules'];
+  const PAGE_IDS = ['home','war','growth','currency-types','currency','hunting','quests','adventure','jobs','crafting','details','roadmap','rules'];
 
   function showPage(id, updateHash = true){
     if (!PAGE_IDS.includes(id)) id = 'home';
